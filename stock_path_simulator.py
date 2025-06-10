@@ -20,7 +20,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Load tickers CSV (make sure nasdaq_tickers.csv is in the same folder)
-tickers_df = pd.read_csv(r"C:\Users\MATTEO IENTILE\Desktop\nasdaq_tickers.csv")
+tickers_df = pd.read_csv("nasdaq_tickers.csv")
 
 # Extract ticker list and sort alphabetically
 ticker_list = sorted(tickers_df['Symbol'].astype(str).tolist())
