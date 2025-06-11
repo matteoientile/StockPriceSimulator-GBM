@@ -68,14 +68,6 @@ if ticker:
     sigma = float(daily_sigma * np.sqrt(252))
     mu = float(np.mean(log_returns) * 252 + 0.5 * sigma**2)
 
-    # Display parameters table
-    st.subheader("📊 Estimated Parameters")
-    param_df = pd.DataFrame({
-        "Parameter": ["Initial Price (S₀)", "Annualized Drift (μ)", "Annualized Volatility (σ)"],
-        "Value": [float(df["Close"].iloc[-1]), round(mu, 4), round(sigma, 4)]
-    })
-    st.dataframe(param_df, hide_index=True, use_container_width=False)
-
     X0 = np.log(S0)
     Xmatrix = np.zeros((n_steps + 1, n_sim))
     Xmatrix[0, :] = X0
@@ -93,9 +85,30 @@ if ticker:
     p75 = np.percentile(Smatrix, 75, axis=1)
     p95 = np.percentile(Smatrix, 95, axis=1)
 
+    # Calculate VaR 95% at the user-defined horizon
+    VaR_95 = max(0, S0 - p5[n_steps])
+
+    # Display parameters table including VaR
+    st.subheader("📊 Estimated Parameters")
+    param_df = pd.DataFrame({
+        "Parameter": [
+            "Initial Price (S₀)", 
+            "Annualized Drift (μ)", 
+            "Annualized Volatility (σ)", 
+            f"VaR 95% ({n_steps} days)"
+        ],
+        "Value": [
+            round(float(S0), 2), 
+            round(mu, 4), 
+            round(sigma, 4), 
+            round(VaR_95, 2)
+        ]
+    })
+    st.dataframe(param_df, hide_index=True, use_container_width=False)
+
     fig = go.Figure()
 
-    # Plot up to 50 individual paths for clarity
+    # Plot up to 100 individual paths for clarity
     colors = px.colors.qualitative.Plotly
     for i in range(min(n_sim, 100)):
         fig.add_trace(go.Scatter(
@@ -135,4 +148,3 @@ if ticker:
     )
 
     st.plotly_chart(fig, use_container_width=False)
-
