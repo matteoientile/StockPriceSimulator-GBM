@@ -46,7 +46,7 @@ if ticker:
 
     # Set start date based on horizon
     if horizon == "Short-term (6 months)":
-    start_date_dt = end_date_dt - timedelta(days=182)
+        start_date_dt = end_date_dt - timedelta(days=182)
     elif horizon == "Mid-term (2 years)":
         start_date_dt = end_date_dt - timedelta(days=365 * 2)
     elif horizon == "Long-term (5 years)":
