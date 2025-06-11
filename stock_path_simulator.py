@@ -30,7 +30,12 @@ st.title("Stock Path Simulator - Geometric Brownian Motion")
 col1, col2, col3 = st.columns(3)
 n_steps = col1.number_input("Days of simulation", min_value=1, value=365)
 n_sim = col2.number_input("Number of paths", min_value=1, value=1000)
-horizon = col3.radio("Time horizon", ["Short-term (6 months)", "Mid-term (2 years)", "Long-term (5 years)"])
+horizon = col3.radio("Time horizon", [
+    "Short-term (6 months)",
+    "Mid-term (2 years)",
+    "Long-term (5 years)",
+    "Since Trump election (11/8/2024)"
+])
 col3.markdown("Estimation of drift and volatility depends on the selected time horizon.")
 
 ticker = selected_ticker.upper()
@@ -41,11 +46,13 @@ if ticker:
 
     # Set start date based on horizon
     if horizon == "Short-term (6 months)":
-        start_date_dt = end_date_dt - timedelta(days=182)
+    start_date_dt = end_date_dt - timedelta(days=182)
     elif horizon == "Mid-term (2 years)":
         start_date_dt = end_date_dt - timedelta(days=365 * 2)
-    else:
+    elif horizon == "Long-term (5 years)":
         start_date_dt = end_date_dt - timedelta(days=365 * 5)
+    else:  # Since last US election (Nov 8, 2024)
+        start_date_dt = datetime(2024, 11, 8)
 
     end_date = end_date_dt.strftime('%Y-%m-%d')
     start_date = start_date_dt.strftime('%Y-%m-%d')
