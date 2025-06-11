@@ -15,6 +15,19 @@ st.markdown("""
         padding-right: 2rem;
         max-width: 95%;
     }
+    .linkedin-badge {
+        background-color: #0A66C2;
+        color: white !important;
+        padding: 8px 12px;
+        border-radius: 4px;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 2rem;
+    }
+    .linkedin-badge a {
+        color: white !important;
+        text-decoration: none;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -22,6 +35,22 @@ st.markdown("""
 tickers_df = pd.read_csv(r"nasdaq_tickers.csv")
 ticker_list = sorted(tickers_df['Symbol'].astype(str).tolist())
 selected_ticker = st.sidebar.selectbox("Select a ticker", ticker_list)
+
+# ADD LINKEDIN BADGE TO SIDEBAR
+st.sidebar.markdown("---")
+st.sidebar.markdown(
+    '<div class="linkedin-badge"><a href="https://www.linkedin.com/in/matteo-ientile-b8867b225/" target="_blank">'
+    '🔗 Connect with me on LinkedIn'
+    '</a></div>',
+    unsafe_allow_html=True
+)
+st.sidebar.markdown("""
+    <div style="text-align: center; margin-top: 0.5rem; font-size: 0.9rem;">
+    Created by Matteo Ientile<br>
+    Quant Developer & Data Scientist
+    </div>
+""", unsafe_allow_html=True)
+
 
 # TITLE
 st.title("Stock Path Simulator - Geometric Brownian Motion")
