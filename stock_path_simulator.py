@@ -67,15 +67,6 @@ This simulation is for **educational purposes only**. It's not financial advice 
 
 # TITLE WITH DISCLAIMER
 st.title("Stock Path Simulator - Geometric Brownian Motion")
-st.markdown("""
-<div class="disclaimer-box">
-🚨 <strong>For Educational & Entertainment Purposes Only</strong> - 
-This tool demonstrates financial concepts using simplified models. 
-Actual market behavior is more complex and unpredictable. 
-<strong>Never</strong> use this for real investment decisions!
-</div>
-""", unsafe_allow_html=True)
-
 
 # INPUT DATA
 col1, col2, col3 = st.columns(3)
