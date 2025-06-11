@@ -28,6 +28,14 @@ st.markdown("""
         color: white !important;
         text-decoration: none;
     }
+    .disclaimer-box {
+        background-color: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 10px;
+        margin: 15px 0;
+        border-radius: 4px;
+        font-size: 0.9rem;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -36,10 +44,10 @@ tickers_df = pd.read_csv(r"nasdaq_tickers.csv")
 ticker_list = sorted(tickers_df['Symbol'].astype(str).tolist())
 selected_ticker = st.sidebar.selectbox("Select a ticker", ticker_list)
 
-# ADD LINKEDIN BADGE TO SIDEBAR
+# ADD LINKEDIN BADGE AND DISCLAIMER TO SIDEBAR
 st.sidebar.markdown("---")
 st.sidebar.markdown(
-    '<div class="linkedin-badge"><a href="https://www.linkedin.com/in/matteo-ientile-b8867b225/" target="_blank">'
+    '<div class="linkedin-badge"><a href="https://www.linkedin.com/in/matteo-ientile/" target="_blank">'
     '🔗 Connect with me on LinkedIn'
     '</a></div>',
     unsafe_allow_html=True
@@ -47,12 +55,27 @@ st.sidebar.markdown(
 st.sidebar.markdown("""
     <div style="text-align: center; margin-top: 0.5rem; font-size: 0.9rem;">
     Created by Matteo Ientile<br>
+    Quant Developer & Data Scientist
     </div>
 """, unsafe_allow_html=True)
 
+st.sidebar.markdown("---")
+st.sidebar.warning("""
+**⚠️ IMPORTANT DISCLAIMER**  
+This simulation is for **educational purposes only**. It's not financial advice and shouldn't be used for investment decisions. Results are hypothetical and based on simplified models.
+""")
 
-# TITLE
+# TITLE WITH DISCLAIMER
 st.title("Stock Path Simulator - Geometric Brownian Motion")
+st.markdown("""
+<div class="disclaimer-box">
+🚨 <strong>For Educational & Entertainment Purposes Only</strong> - 
+This tool demonstrates financial concepts using simplified models. 
+Actual market behavior is more complex and unpredictable. 
+<strong>Never</strong> use this for real investment decisions!
+</div>
+""", unsafe_allow_html=True)
+
 
 # INPUT DATA
 col1, col2, col3 = st.columns(3)
@@ -177,3 +200,16 @@ if ticker:
     )
 
     st.plotly_chart(fig, use_container_width=False)
+
+# ADD FINAL DISCLAIMER AT BOTTOM
+st.markdown("---")
+st.caption("""
+**Disclaimer & Purpose Statement**: This simulation demonstrates Geometric Brownian Motion concepts in finance. 
+It uses simplified models that don't capture all market realities. The creator makes no claims about accuracy 
+and accepts no liability for any use of these simulations. This is purely educational/entertainment software - 
+**not investment advice**, **not financial guidance**, and **not a trading tool**. Always consult qualified professionals 
+before making financial decisions.
+""")
+
+
+
