@@ -86,7 +86,7 @@ if ticker:
     p95 = np.percentile(Smatrix, 95, axis=1)
 
     # Calculate VaR 95% at the user-defined horizon
-    VaR_95 = max(0, S0 - p5[n_steps])
+    VaR_95 = max(0, float(S0 - p5[n_steps]))
 
     # Display parameters table including VaR
     st.subheader("📊 Estimated Parameters")
