@@ -47,7 +47,6 @@ st.sidebar.markdown(
 st.sidebar.markdown("""
     <div style="text-align: center; margin-top: 0.5rem; font-size: 0.9rem;">
     Created by Matteo Ientile<br>
-    Quant Developer & Data Scientist
     </div>
 """, unsafe_allow_html=True)
 
