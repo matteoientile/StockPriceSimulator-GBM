@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 import plotly.graph_objects as go
 import plotly.express as px
 
-# Set wide layout and adjust padding
+# LAYOUT
 st.set_page_config(layout="wide")
 st.markdown("""
     <style>
@@ -18,7 +18,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Load tickers CSV
+# TICKER FROM CSV
 tickers_df = pd.read_csv(r"nasdaq_tickers.csv")
 ticker_list = sorted(tickers_df['Symbol'].astype(str).tolist())
 selected_ticker = st.sidebar.selectbox("Select a ticker", ticker_list)
@@ -40,18 +40,19 @@ col3.markdown("Estimation of drift and volatility depends on the selected time h
 
 ticker = selected_ticker.upper()
 
+#GBM FUNCTION
 if ticker:
     dt = 1 / 365
     end_date_dt = datetime.today() - timedelta(days=1)
 
-    # Set start date based on horizon
+    # START DATE BASED ON HORIZON TIME
     if horizon == "Short-term (6 months)":
         start_date_dt = end_date_dt - timedelta(days=182)
     elif horizon == "Mid-term (2 years)":
         start_date_dt = end_date_dt - timedelta(days=365 * 2)
     elif horizon == "Long-term (5 years)":
         start_date_dt = end_date_dt - timedelta(days=365 * 5)
-    else:  # Since last US election (Nov 8, 2024)
+    else:  # (Nov 8, 2024)
         start_date_dt = datetime(2024, 11, 8)
 
     end_date = end_date_dt.strftime('%Y-%m-%d')
@@ -85,10 +86,10 @@ if ticker:
     p75 = np.percentile(Smatrix, 75, axis=1)
     p95 = np.percentile(Smatrix, 95, axis=1)
 
-    # Calculate VaR 95% at the user-defined horizon
+    # VAR 95% FOR THE WHOLE LENGTH
     VaR_95 = max(0, float(S0 - p5[n_steps]))
 
-    # Display parameters table including VaR
+    # PARAMETERS TAB
     st.subheader("📊 Estimated Parameters")
     param_df = pd.DataFrame({
         "Parameter": [
@@ -108,7 +109,7 @@ if ticker:
 
     fig = go.Figure()
 
-    # Plot up to 100 individual paths for clarity
+    # 100 (OW WHATEVER, JUST CHANGE 100) PATH PLOTTED
     colors = px.colors.qualitative.Plotly
     for i in range(min(n_sim, 100)):
         fig.add_trace(go.Scatter(
@@ -121,7 +122,7 @@ if ticker:
             showlegend=False
         ))
 
-    # Add percentile lines
+    # PERCENTILE LINES
     fig.add_trace(go.Scatter(x=np.arange(n_steps + 1), y=p5, mode='lines',
                              line=dict(color='darkgreen', width=2),
                              name="5th Percentile"))
