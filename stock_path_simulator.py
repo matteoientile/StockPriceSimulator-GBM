@@ -30,7 +30,7 @@ st.title("Stock Path Simulator - Geometric Brownian Motion")
 col1, col2, col3 = st.columns(3)
 n_steps = col1.number_input("Days of simulation", min_value=1, value=365)
 n_sim = col2.number_input("Number of paths", min_value=1, value=5000)
-horizon = col3.radio("Time horizon", [
+horizon = col3.radio("Historical window for parameter estimation", [
     "Short-term (6 months)",
     "Mid-term (2 years)",
     "Long-term (5 years)",
