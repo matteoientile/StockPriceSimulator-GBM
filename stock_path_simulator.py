@@ -67,7 +67,7 @@ if ticker:
         "Parameter": ["Initial Price (S₀)", "Annualized Drift (μ)", "Annualized Volatility (σ)"],
         "Value": [round(S0, 2), round(mu, 4), round(sigma, 4)]
     })
-    st.dataframe(param_df, hide_index=True, use_container_width=False)
+    st.dataframe(param_df)
 
     X0 = np.log(S0)
     Xmatrix = np.zeros((n_steps + 1, n_sim))
