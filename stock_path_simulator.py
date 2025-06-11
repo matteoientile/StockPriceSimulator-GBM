@@ -65,9 +65,9 @@ if ticker:
     st.subheader("📊 Estimated Parameters")
     param_df = pd.DataFrame({
         "Parameter": ["Initial Price (S₀)", "Annualized Drift (μ)", "Annualized Volatility (σ)"],
-        "Value": [round(S0, 2), round(mu, 4), round(sigma, 4)]
+        "Value": [float(df["Close"].iloc[-1]), round(mu, 4), round(sigma, 4)]
     })
-    st.dataframe(param_df)
+    st.dataframe(param_df, hide_index=True, use_container_width=False)
 
     X0 = np.log(S0)
     Xmatrix = np.zeros((n_steps + 1, n_sim))
