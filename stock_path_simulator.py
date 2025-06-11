@@ -29,7 +29,7 @@ st.title("Stock Path Simulator - Geometric Brownian Motion")
 # INPUT DATA
 col1, col2, col3 = st.columns(3)
 n_steps = col1.number_input("Days of simulation", min_value=1, value=365)
-n_sim = col2.number_input("Number of paths", min_value=1, value=1000)
+n_sim = col2.number_input("Number of paths", min_value=1, value=5000)
 horizon = col3.radio("Time horizon", [
     "Short-term (6 months)",
     "Mid-term (2 years)",
@@ -97,7 +97,7 @@ if ticker:
 
     # Plot up to 50 individual paths for clarity
     colors = px.colors.qualitative.Plotly
-    for i in range(min(n_sim, 50)):
+    for i in range(min(n_sim, 100)):
         fig.add_trace(go.Scatter(
             x=np.arange(n_steps + 1),
             y=Smatrix[:, i],
