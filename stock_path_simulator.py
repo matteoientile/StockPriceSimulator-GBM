@@ -220,4 +220,3 @@ and accepts no liability for any use of these simulations. This is purely educat
 **not investment advice**, **not financial guidance**, and **not a trading tool**. Always consult qualified professionals 
 before making financial decisions.
 """)
-
