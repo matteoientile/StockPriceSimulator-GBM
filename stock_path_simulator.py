@@ -75,6 +75,7 @@ horizon = col3.radio("Historical window for parameter estimation", [
     "Short-term (6 months)",
     "Mid-term (2 years)",
     "Long-term (5 years)",
+    "Full history",
     "Since Trump election (11/8/2024)"
 ])
 col3.markdown("Estimation of drift and volatility depends on the selected time horizon.")
