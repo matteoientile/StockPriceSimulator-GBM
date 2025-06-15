@@ -117,23 +117,6 @@ if ticker:
     sigma = float(daily_sigma * np.sqrt(252))
     mu = float(np.mean(log_returns) * 252 + 0.5 * sigma**2)
 
-    X0 = np.log(S0)
-    Xmatrix = np.zeros((n_steps + 1, n_sim))
-    Xmatrix[0, :] = X0
-
-    np.random.seed(42)
-    for i in range(n_steps):
-        Z = np.random.normal(0, 1, size=n_sim)
-        Xi = Xmatrix[i, :] + (mu - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * Z
-        Xmatrix[i + 1, :] = Xi
-
-    Smatrix = np.exp(Xmatrix)
-    median_path = np.median(Smatrix, axis=1)
-    p5 = np.percentile(Smatrix, 5, axis=1)
-    p25 = np.percentile(Smatrix, 25, axis=1)
-    p75 = np.percentile(Smatrix, 75, axis=1)
-    p95 = np.percentile(Smatrix, 95, axis=1)
-
     # VAR 95% FOR THE WHOLE LENGTH
     VaR_95 = max(0, float(S0 - p5[n_steps]))
 
@@ -154,6 +137,24 @@ if ticker:
         ]
     })
     st.dataframe(param_df, hide_index=True, use_container_width=False)
+
+    
+    X0 = np.log(S0)
+    Xmatrix = np.zeros((n_steps + 1, n_sim))
+    Xmatrix[0, :] = X0
+
+    np.random.seed(42)
+    for i in range(n_steps):
+        Z = np.random.normal(0, 1, size=n_sim)
+        Xi = Xmatrix[i, :] + (mu - 0.5 * sigma**2) * dt + sigma * np.sqrt(dt) * Z
+        Xmatrix[i + 1, :] = Xi
+
+    Smatrix = np.exp(Xmatrix)
+    median_path = np.median(Smatrix, axis=1)
+    p5 = np.percentile(Smatrix, 5, axis=1)
+    p25 = np.percentile(Smatrix, 25, axis=1)
+    p75 = np.percentile(Smatrix, 75, axis=1)
+    p95 = np.percentile(Smatrix, 95, axis=1)
 
     fig = go.Figure()
 
@@ -191,8 +192,8 @@ if ticker:
         title=f"{ticker} price forecast, Day 0: {end_date} - GBM ({n_sim} simulations)",
         xaxis_title="T (days)",
         yaxis_title="Stock price",
-        height=700,
-        width=1500,
+        height=500,
+        width=1200,
         legend=dict(y=0.5, traceorder="normal", font=dict(size=12))
     )
 
