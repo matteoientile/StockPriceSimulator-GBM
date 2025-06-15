@@ -75,7 +75,7 @@ n_sim = col2.number_input("Number of paths", min_value=1, value=5000)
 ticker = selected_ticker.upper()
 
 # Create two main columns for side-by-side layout
-plot_col, controls_col = st.columns([2, 1])
+plot_col, controls_col = st.columns([3, 1])
 
 # TIME HORIZON SELECTION (in right column)
 with controls_col:
@@ -202,7 +202,7 @@ if ticker:
             title=f"{ticker} price forecast, Day 0: {end_date} - GBM ({n_sim} simulations)",
             xaxis_title="T (days)",
             yaxis_title="Stock price",
-            height=600,
+            height=650,
             legend=dict(y=0.5, traceorder="normal", font=dict(size=10))
         )
 
