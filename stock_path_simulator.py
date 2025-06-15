@@ -191,7 +191,7 @@ if ticker:
         title=f"{ticker} price forecast, Day 0: {end_date} - GBM ({n_sim} simulations)",
         xaxis_title="T (days)",
         yaxis_title="Stock price",
-        height=500,
+        height=700,
         width=1200,
         legend=dict(y=0.5, traceorder="normal", font=dict(size=12))
     )
