@@ -64,7 +64,7 @@ st.sidebar.warning("""
 This simulation is for **educational purposes only**. It's not financial advice and shouldn't be used for investment decisions. Results are hypothetical and based on simplified models.
 """)
 
-# TITLE WITH DISCLAIMER
+# TITLE
 st.title("Stock Path Simulator - Geometric Brownian Motion")
 
 # INPUT DATA
@@ -93,13 +93,19 @@ if ticker:
         start_date_dt = end_date_dt - timedelta(days=365 * 2)
     elif horizon == "Long-term (5 years)":
         start_date_dt = end_date_dt - timedelta(days=365 * 5)
-    else:  # (Nov 8, 2024)
+    elif horizon == "Since Trump election (11/8/2024)":
         start_date_dt = datetime(2024, 11, 8)
+    elif horizon == "Full history":
+        start_date_dt = None
 
     end_date = end_date_dt.strftime('%Y-%m-%d')
-    start_date = start_date_dt.strftime('%Y-%m-%d')
 
-    data = yf.download(ticker, start=start_date, end=end_date)
+    if start_date_dt:
+        start_date = start_date_dt.strftime('%Y-%m-%d')
+        data = yf.download(ticker, start=start_date, end=end_date)
+    else:
+        data = yf.download(ticker, end=end_date)  # Full history
+    
     df = pd.DataFrame(data)
     df_close = df["Close"]
     log_returns = np.log(df_close / df_close.shift(1))
