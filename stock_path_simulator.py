@@ -89,7 +89,7 @@ with controls_col:
     ])
     st.markdown("Estimation of drift and volatility depends on the selected time horizon.")
 
-#GBM FUNCTION
+# GBM FUNCTION
 if ticker:
     dt = 1 / 365
     end_date_dt = datetime.today() - timedelta(days=1)
@@ -166,12 +166,9 @@ if ticker:
 
     # PLOT (in left column)
     with plot_col:
-
-    # PLOT (in left column)
-    with plot_col:
         fig = go.Figure()
 
-        # 100 (OW WHATEVER, JUST CHANGE 100) PATH PLOTTED
+        # 100 PATH PLOTTED
         colors = px.colors.qualitative.Plotly
         for i in range(min(n_sim, 100)):
             fig.add_trace(go.Scatter(
