@@ -40,7 +40,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # TICKER FROM CSV
-tickers_df = pd.read_csv(r"nasdaq_tickers.csv")
+tickers_df = pd.read_csv("nasdaq_tickers.csv")
 ticker_list = sorted(tickers_df['Symbol'].astype(str).tolist())
 selected_ticker = st.sidebar.selectbox("Select a ticker", ticker_list)
 
@@ -110,9 +110,9 @@ if ticker:
 
     if start_date_dt:
         start_date = start_date_dt.strftime('%Y-%m-%d')
-        data = yf.download(ticker, start=start_date, end=end_date)
+        data = yf.download(ticker, start=start_date, end=end_date, auto_adjust=True)
     else:
-        data = yf.download(ticker, end=end_date)  # Full history
+        data = yf.download(ticker, end=end_date, auto_adjust=True)  # Full history
     
     df = pd.DataFrame(data)
     df_close = df["Close"]
@@ -120,9 +120,9 @@ if ticker:
     df["log_returns"] = log_returns
 
     S0 = df["Close"].iloc[-1]
-    daily_sigma = float(log_returns.std())
-    sigma = float(daily_sigma * np.sqrt(252))
-    mu = float(np.mean(log_returns) * 252 + 0.5 * sigma**2)
+    daily_sigma = log_returns.std()
+    sigma = daily_sigma * np.sqrt(252)
+    mu = log_returns.mean() * 252 + 0.5 * sigma**2
 
     X0 = np.log(S0)
     Xmatrix = np.zeros((n_steps + 1, n_sim))
@@ -142,7 +142,7 @@ if ticker:
     p95 = np.percentile(Smatrix, 95, axis=1)
 
     # VAR 95% FOR THE WHOLE LENGTH
-    VaR_95 = max(0, float(S0 - p5[n_steps]))
+    VaR_95 = max(0, S0 - p5[n_steps])
 
     # PARAMETERS TAB (in right column)
     with controls_col:
@@ -156,7 +156,7 @@ if ticker:
                 f"VaR 95% ({n_steps} days)"
             ],
             "Value": [
-                round(float(S0), 2), 
+                round(S0, 2), 
                 round(mu, 4), 
                 round(sigma, 4), 
                 round(VaR_95, 2)
@@ -168,7 +168,7 @@ if ticker:
     with plot_col:
         fig = go.Figure()
 
-        # 100 PATH PLOTTED
+        # 100 PATHS PLOTTED
         colors = px.colors.qualitative.Plotly
         for i in range(min(n_sim, 100)):
             fig.add_trace(go.Scatter(
@@ -217,3 +217,4 @@ and accepts no liability for any use of these simulations. This is purely educat
 **not investment advice**, **not financial guidance**, and **not a trading tool**. Always consult qualified professionals 
 before making financial decisions.
 """)
+
