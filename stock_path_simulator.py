@@ -112,19 +112,19 @@ if ticker:
         start_date = start_date_dt.strftime('%Y-%m-%d')
         data = yf.download(ticker, start=start_date, end=end_date, auto_adjust=True)
     else:
-        data = yf.download(ticker, end=end_date, auto_adjust=True)  # Full history
-    
+        data = yf.download(ticker, end=end_date, auto_adjust=True)
+
     df = pd.DataFrame(data)
     df_close = df["Close"]
     log_returns = np.log(df_close / df_close.shift(1))
     df["log_returns"] = log_returns
 
-    S0 = df["Close"].iloc[-1]
-    daily_sigma = log_returns.std()
+    S0 = float(df["Close"].iloc[-1])
+    daily_sigma = float(log_returns.std())
     sigma = daily_sigma * np.sqrt(252)
-    mu = log_returns.mean() * 252 + 0.5 * sigma**2
+    mu = float(log_returns.mean()) * 252 + 0.5 * sigma**2
 
-    X0 = np.log(S0)
+    X0 = float(np.log(S0))
     Xmatrix = np.zeros((n_steps + 1, n_sim))
     Xmatrix[0, :] = X0
 
@@ -217,4 +217,5 @@ and accepts no liability for any use of these simulations. This is purely educat
 **not investment advice**, **not financial guidance**, and **not a trading tool**. Always consult qualified professionals 
 before making financial decisions.
 """)
+
 
